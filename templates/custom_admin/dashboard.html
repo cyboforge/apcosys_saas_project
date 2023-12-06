@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        {% if user.is_authenticated %}
+            <h2>Welcome, {{ user.username }}!</h2>
+            <p>This is your admin dashboard.</p>
+            <form action="{% url 'employee_logout' %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Logout</button>
+            </form>
+            <br/>
+            <h2>Employee list</h2>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">First Name</th>
+                    <th scope="col">Last Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for employee in employee_list %}
+                  <tr>
+                    <td scope="row">{{ employee.first_name }}</td>
+                    <td>{{ empoloyee.last_name }}</td>
+                    <td>{{ employee.email }}</td>
+                    <td><a href="/admin/edit_employee/{{ employee.id }}">edit</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+        {% else %}
+            <p>You are not logged in. Please <a href="employee/logout">login</a>.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
