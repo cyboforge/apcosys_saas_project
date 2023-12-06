@@ -29,7 +29,7 @@
                     {% for employee in employee_list %}
                   <tr>
                     <td scope="row">{{ employee.first_name }}</td>
-                    <td>{{ empoloyee.last_name }}</td>
+                    <td>{{ employee.last_name }}</td>
                     <td>{{ employee.email }}</td>
                     <td><a href="/admin/edit_employee/{{ employee.id }}">edit</a></td>
                   </tr>

@@ -1,11 +1,7 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
-
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth import authenticate, login, logout
 from employee.models import Employee
-from .forms import  UserAuthenticationForm
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth import logout
-
+from .forms import  UserAuthenticationForm, EmployeeEditForm
 
 def admin_login(request):
     if request.method == 'POST':
@@ -35,3 +31,18 @@ def dashboard(request):
             'employee_list': employee_list
         })
     return redirect('/admin/login')
+
+
+
+def edit_employee(request, employee_id):
+    employee = get_object_or_404(Employee, pk=employee_id)
+    
+    if request.method == 'POST':
+        form = EmployeeEditForm(request.POST, instance=employee)
+        if form.is_valid():
+            form.save()
+            return redirect('/admin/dashboard')
+    else:
+        form = EmployeeEditForm(instance=employee)
+    
+    return render(request, 'custom_admin/edit_employee.html', {'form': form, 'employee': employee})
