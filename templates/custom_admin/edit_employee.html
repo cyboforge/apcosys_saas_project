@@ -1,16 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
+  {% load crispy_forms_tags %}
 <head>
     <meta charset="UTF-8">
     <title>Edit Employee Details</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Include any necessary CSS or JS files -->
 </head>
 <body>
     <h2>Edit Employee Details</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form | crispy }}
         <button type="submit">Save Changes</button>
+    </form>
+    <form name = "delete_employee" method = "POST" action="/admin/delete_employee/{{ employee.id }}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-danger">Delete</button>
     </form>
 </body>
 </html>

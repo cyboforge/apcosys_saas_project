@@ -10,6 +10,7 @@ def admin_login(request):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password']
             user = authenticate(request=request,username=email, password=password)
+            
             if user is not None and user.is_superuser == True:
                 login(request, user)
                 return redirect('/admin/dashboard')
@@ -46,3 +47,9 @@ def edit_employee(request, employee_id):
         form = EmployeeEditForm(instance=employee)
     
     return render(request, 'custom_admin/edit_employee.html', {'form': form, 'employee': employee})
+
+def delete_employee(request, employee_id):
+    employee = get_object_or_404(Employee, pk=employee_id)
+    if request.method == 'POST':
+        employee.delete()
+    return redirect('/admin/dashboard')  # Redirect to employee list page after deletion
